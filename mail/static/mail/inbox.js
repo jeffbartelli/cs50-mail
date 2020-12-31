@@ -27,12 +27,11 @@ function compose_email() {
 }
 
 function send_email(e) {
-
   e.preventDefault();
   
   // Remove any alerts
   document.querySelector('#alert').style.display = 'none';
-  document.querySelector('#alert').classList.remove('alert-danger');
+  document.querySelector('#alert').innerHTML = '';
   
   // Collect field values
   const recipients = document.querySelector('#compose-recipients').value;
@@ -51,23 +50,42 @@ function send_email(e) {
   })
   .then(response => {
     status = response.status;
+    console.log(response);
     return response.json();
   })
   .then(result => {
     // Post the result to a message div with bootstrap class
     document.querySelector('#alert').style.display = 'block';
-    // 
+    
+    // Create an alert node
+    let newAlert = document.createElement("div");
+    newAlert.classList += "alert alert-dismissible fade show";
+    newAlert.setAttribute("role", "alert");
+    newAlert.setAttribute("id","alert-msg");
+    let closeBtn = document.createElement("button");
+    closeBtn.classList.add("close");
+    closeBtn.setAttribute("type", "button");
+    closeBtn.setAttribute("data-dismiss", "alert");
+    closeBtn.setAttribute("aria-label", "Close");
+    let closeSym = document.createElement("span");
+    closeSym.setAttribute("aria-hidden", "true");
+    closeSym.innerHTML = "&times;";
+    closeBtn.appendChild(closeSym);
+    newAlert.appendChild(closeBtn);
+    document.querySelector('#alert').appendChild(newAlert);
+    
+    // Create appropriate response to status
     if (status === 201) {
-      document.querySelector('#alert').insertAdjacentText('afterbegin', result.message);
-      document.querySelector('#alert').classList.add('alert-success');
+      document.querySelector('#alert-msg').insertAdjacentText('afterbegin', result.message);
+      document.querySelector('#alert-msg').classList.add('alert-success');
       // Load Sent Mailbox
       load_mailbox('sent');
       // Hide the compose view and show emails view
       document.querySelector('#emails-view').style.display = 'block';
       document.querySelector('#compose-view').style.display = 'none';
     } else {
-      document.querySelector('#alert').insertAdjacentText('afterbegin', result.error);
-      document.querySelector('#alert').classList.add('alert-danger');
+      document.querySelector('#alert-msg').insertAdjacentText('afterbegin', result.error);
+      document.querySelector('#alert-msg').classList.add('alert-danger');
     }
   })
 }

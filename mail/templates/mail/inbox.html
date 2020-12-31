@@ -11,9 +11,7 @@
     <a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}">Log Out</a>
     <hr>
 
-    <div class="alert alert-dismissible fade show" role="alert" id="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    </div>
+    <div id="alert"></div>
 
     <div id="emails-view"></div>
 
@@ -22,8 +20,11 @@
         <p id="to"></p>
         <p id="subject"></p>
         <p id="timestamp"></p>
-        <button class="btn btn-sm btn-outline-primary" id="reply">Reply</button>
-        <button class="btn btn-sm btn-outline-primary" id="archive">Archive</button>
+        <div class="btn-group">
+            <button class="btn btn-sm btn-outline-primary" id="reply">Reply</button>
+            <button class="btn btn-sm btn-outline-primary" id="archive">Archive</button>
+        </div>
+        
         <hr>
         <p id="body"></p>
     </div>
