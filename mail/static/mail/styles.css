@@ -1,3 +1,8 @@
 textarea {
     min-height: 400px;
 }
+
+#reader-view {
+    border: 1px solid lightgray;
+    margin-top: 10px;
+}
